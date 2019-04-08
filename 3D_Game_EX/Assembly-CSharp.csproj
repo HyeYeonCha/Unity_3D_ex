@@ -61,7 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\test.cs" />
+    <Compile Include="Assets\Scripts\PlayerController.cs" />
     <None Include="Assets\Res\Water Shader\Water_Shader.shader" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>D:/Unity/Unity_3D_ex/3D_Game_EX/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
