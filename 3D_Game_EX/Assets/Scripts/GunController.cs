@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class GunController : MonoBehaviour {
     
+    // 활성화 여부
+    public static bool isActivate = false;
+
+
     // 현재 장착된 총
     [SerializeField]
     private Gun currentGun;
@@ -28,6 +32,7 @@ public class GunController : MonoBehaviour {
     // 필요한 컴포넌트
     [SerializeField]
     private Camera theCam;
+    private Crosshair theCrosshair;
 
     // 피격 이펙트
     [SerializeField]
@@ -37,6 +42,10 @@ public class GunController : MonoBehaviour {
     {
         originPos = Vector3.zero; // (0, 0, 0)
         audioSource = GetComponent<AudioSource>();
+        theCrosshair = FindObjectOfType<Crosshair>();
+
+       
+
     }
 
     // 재장전 시도
@@ -52,10 +61,14 @@ public class GunController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        GunFireRateCalc();
-        TryFire();
-        TryReload();
-        TryFineSight();
+        if (isActivate)
+        {
+            GunFireRateCalc();
+            TryFire();
+            TryReload();
+            TryFineSight();
+        }
+            
 	}
 
     // 연사속도 재계산
@@ -98,6 +111,7 @@ public class GunController : MonoBehaviour {
     // 발사후 계산
     private void Shoot()
     {
+        theCrosshair.FireAnimation();
         currentGun.currentBulletcount--;
         currentFireRate = currentGun.fireRate; // 연사 속도 재계산
         PlaySE(currentGun.fire_Sound);
@@ -115,7 +129,10 @@ public class GunController : MonoBehaviour {
 
     private void Hit()
     {
-        if(Physics.Raycast(theCam.transform.position, theCam.transform.forward, out hitInfo, currentGun.range))
+        if(Physics.Raycast(theCam.transform.position, theCam.transform.forward + 
+            new Vector3(Random.Range(-theCrosshair.GetAccuracy() - currentGun.accuracy, theCrosshair.GetAccuracy() + currentGun.accuracy),
+                        Random.Range(-theCrosshair.GetAccuracy() - currentGun.accuracy, theCrosshair.GetAccuracy() + currentGun.accuracy), 0),
+           out hitInfo, currentGun.range))
         {
             //Debug.Log(hitInfo.transform.name);
             GameObject clone = Instantiate(hit_effect_prefab, hitInfo.point, Quaternion.LookRotation(hitInfo.normal)); // hitInfo.normall >> 충돌한 객체의 표면 반환
@@ -218,6 +235,17 @@ public class GunController : MonoBehaviour {
     }
 
 
+    public void CancelReload()
+    {
+        if(isReload)
+        {
+            StopAllCoroutines();
+            isReload = false;
+        }
+    }
+
+
+
     // 정조준 취소
     public void CancelFineSight()
     {
@@ -232,6 +260,7 @@ public class GunController : MonoBehaviour {
     {
         isFineSightMode = !isFineSightMode; // 자동 스위치
         currentGun.anim.SetBool("FineSightMode", isFineSightMode);
+        theCrosshair.FineSightAnimation(isFineSightMode);
 
         if(isFineSightMode)
         {
@@ -277,6 +306,29 @@ public class GunController : MonoBehaviour {
     public Gun GetGun()
     {
         return currentGun;
+    }
+
+    public bool GetFineSightMode()
+    {
+        return isFineSightMode;
+    }
+
+
+    public void GunChange(Gun _gun)
+    {
+        if(WeaponManager.currentWeapon != null)
+        {
+            WeaponManager.currentWeapon.gameObject.SetActive(false);
+        }
+        currentGun = _gun;
+        WeaponManager.currentWeapon = currentGun.GetComponent<Transform>();
+        WeaponManager.currentWeaponAnim = currentGun.anim;
+
+        currentGun.transform.localPosition = Vector3.zero;
+        currentGun.gameObject.SetActive(true);
+
+        isActivate = true;
+
     }
 
 

@@ -19,9 +19,17 @@ public class PlayerController : MonoBehaviour {
     private float jumpForce;
 
     // 상태 변수
+    private bool isWalk = false;
     private bool isRun = false;
     private bool isCrouch = false;
     private bool isGround = true;
+
+
+    // 움직임 체크 변수
+    private Vector3 lastPos; // 전 프레임의 현재 위치 현재 프레임과 비교하여 같은지 다른지로 현 상태를 체크
+    
+
+
 
     // 앉았을 때 얼마나 앉을지 결정하는 변수
     [SerializeField]
@@ -47,6 +55,7 @@ public class PlayerController : MonoBehaviour {
     [SerializeField]
     private Camera theCamera;
     private Rigidbody myRigid;
+    private Crosshair theCrosshair;
 
 
     private GunController theGunController;
@@ -56,12 +65,12 @@ public class PlayerController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         myRigid = GetComponent<Rigidbody>();
-        applySpeed = walkSpeed;
         capsuleCollider = GetComponent<CapsuleCollider>();
-
         theGunController = FindObjectOfType<GunController>();
+        theCrosshair = FindObjectOfType<Crosshair>();
 
         // 초기화
+        applySpeed = walkSpeed;
         originPosY = theCamera.transform.localPosition.y;
         applyCrouchPosY = originPosY;
     }
@@ -74,8 +83,10 @@ public class PlayerController : MonoBehaviour {
         TryRun(); // 반드시 Move() 위에 있어야함! 움직이기 전에 뛰는지를 판단해야 하기 때문에.
         TryCrouch();
         Move();
+        MoveCheck();
         CameraRotation();
         CharacterRotation();
+
 
 	}
 
@@ -94,8 +105,9 @@ public class PlayerController : MonoBehaviour {
     private void Crouch()
     {
         isCrouch = !isCrouch;
-        
-        if(isCrouch)
+        theCrosshair.CrouchingAnimation(isCrouch);
+
+        if (isCrouch)
         {
             applySpeed = crouchSpeed;
             applyCrouchPosY = crouchPosY;
@@ -140,10 +152,11 @@ public class PlayerController : MonoBehaviour {
     // 지면 체크
     private void IsGround()
     {
-        isGround = Physics.Raycast(transform.position, Vector3.down, capsuleCollider.bounds.extents.y + 0.1f); // Vector3.down >> 무조건 아래방향으로 (절대적인 값, 캡슐기준이 아닌!)
+        isGround = Physics.Raycast(transform.position, Vector3.down, capsuleCollider.bounds.extents.y + 0.2f); // Vector3.down >> 무조건 아래방향으로 (절대적인 값, 캡슐기준이 아닌!)
         // CapsuleCollider의 영역 >> bounds , extents >> bounds 크기의 절반 (extents.y >> y크기의 절반) // 0.1f는 약간의 여유 >> 계단이나 오르막길 등 오차 범위 때문.
         // Raycast로 해당 범위까지 레이저를 발사하여 무언가 물체가 닿았을 때, true 반환 아무것도 없으면 false 반환.
 
+        theCrosshair.JumpingAnimation(!isGround);
 
     }
 
@@ -189,6 +202,7 @@ public class PlayerController : MonoBehaviour {
         theGunController.CancelFineSight();
 
         isRun = true;
+        theCrosshair.RunningAnimation(isRun);
         applySpeed = runSpeed;
     }
     
@@ -196,11 +210,12 @@ public class PlayerController : MonoBehaviour {
     private void RunningCancel()
     {
         isRun = false;
+        theCrosshair.RunningAnimation(isRun);
         applySpeed = walkSpeed;
     }
 
 
-    // 움직임 실행
+    // 움직임 실행 >> 매 프레임마다 실행
     private void Move()
     {
         float _moveDirX = Input.GetAxisRaw("Horizontal");
@@ -215,6 +230,29 @@ public class PlayerController : MonoBehaviour {
 
 
     }
+
+
+    // 
+    private void MoveCheck()
+    {
+
+        if(!isRun && !isCrouch && isGround)
+        {
+            if(Vector3.Distance(lastPos, transform.position) >= 0.01f)
+            // if (lastPos != transform.position) >> 경사로에서 미끄러져도 프레임에 따라 위치값이 달라지기 때문에 여유값필요. // 처음 호출 되었을 때의 값과 비교
+                isWalk = true;
+            else
+                isWalk = false;
+
+            theCrosshair.WalikingAnimation(isWalk);
+            lastPos = transform.position; // 이전 프레임의 위치 (조건문 들어가기 전에 이미 값 대입되므로)
+
+        }
+
+
+    }
+
+
 
     // 위아래 카메라 회전
     private void CameraRotation()
