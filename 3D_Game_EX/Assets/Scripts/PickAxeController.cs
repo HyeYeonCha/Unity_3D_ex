@@ -27,7 +27,11 @@ public class PickAxeController : CloseWeaponController {
         {
             if (CheckObject())
             {
-                isSwing = false;
+                if(hitInfo.transform.tag == "Rock")
+                {
+                    hitInfo.transform.GetComponent<Rock>().Mining();
+                }
+                isSwing = false; // 중복 실행 X
                 Debug.Log(hitInfo.transform.name);
             }
             yield return null;
