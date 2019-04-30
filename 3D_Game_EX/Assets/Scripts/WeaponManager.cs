@@ -137,7 +137,7 @@ public class WeaponManager : MonoBehaviour {
             case "GUN":
                 theGunController.CancelFineSight();
                 theGunController.CancelReload();
-                GunController.isActivate = false; // 이존의 있던 것을 취소
+                GunController.isActivate = false; // 기존의 있던 것을 취소
                 break;
 
             case "HAND":
