@@ -18,12 +18,14 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDra
     [SerializeField]
     private GameObject go_CountImage;
 
-    private WeaponManager theWeaponmanager;
+    private ItemEffectDataBase theItemEffectDataBase;
+    //private WeaponManager theWeaponmanager;
 
     void Start()
     {
+        theItemEffectDataBase = FindObjectOfType<ItemEffectDataBase>();
         // 하이어라키뷰가 아닌 프리팹일 경우 이게 더 ([SerializeField] 보다) 좋다. (더 잘찾음)
-        theWeaponmanager = FindObjectOfType<WeaponManager>();
+        //theWeaponmanager = FindObjectOfType<WeaponManager>();
     }
 
     // 이미지 투명도 조절
@@ -89,19 +91,21 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDra
         if(eventData.button == PointerEventData.InputButton.Right)
         {
             if(item != null) {
-                if(item.itemType == Item.ItemType.Equipment)
-                {
-                    // 장착
-                    StartCoroutine(theWeaponmanager.ChangeWeaponCoroutine(item.weaponType, item.itemName));
-                    // Gun, SubMuchineGun1 >> 저번에 이런식으로 넣었던 거
-                }
-                else
-                {
+                //if(item.itemType == Item.ItemType.Equipment)
+                //{
+                //    // 장착
+                //    StartCoroutine(theWeaponmanager.ChangeWeaponCoroutine(item.weaponType, item.itemName));
+                //    // Gun, SubMuchineGun1 >> 저번에 이런식으로 넣었던 거
+                //}
+                //else
+                
+                    theItemEffectDataBase.UseItem(item);
+
                     // 소모
-                    Debug.Log(item.itemName + "을 소모했습니다.");
+                    if(item.itemType == Item.ItemType.Used)
                     SetSlotCount(-1);
                     
-                }
+                
             }
         }
 

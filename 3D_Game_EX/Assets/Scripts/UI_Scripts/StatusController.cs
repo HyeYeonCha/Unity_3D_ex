@@ -196,6 +196,24 @@ public class StatusController : MonoBehaviour {
             Debug.Log("방어력 0 !!!");
     }
 
+    public void IncreaseSP(int _count)
+    {
+        if (currentSp + _count < sp)
+        {
+            currentSp += _count;
+        }
+        else
+            currentSp = SP;
+    }
+
+    public void DecreaseSP(int _count)
+    {
+        if (currentSp - _count < 0)
+            currentSp = 0;
+        else
+            currentSp -= _count;
+
+    }
 
     public void IncreaseHungry(int _count)
     {
@@ -219,10 +237,10 @@ public class StatusController : MonoBehaviour {
 
     public void IncreaseThirsty(int _count)
     {
-        if (currentThirsty - _count < thirsty)
-            currentThirsty = 0;
+        if (currentThirsty + _count < thirsty)
+            currentThirsty += _count;
         else
-            currentThirsty -= _count;
+            currentThirsty = thirsty;
 
 
     }
