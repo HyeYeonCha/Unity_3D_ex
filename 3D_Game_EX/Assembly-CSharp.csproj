@@ -80,6 +80,7 @@
     <Compile Include="Assets\Scripts\UI_Scripts\DragSlot.cs" />
     <Compile Include="Assets\Scripts\UI_Scripts\Inventory.cs" />
     <Compile Include="Assets\Scripts\UI_Scripts\Slot.cs" />
+    <Compile Include="Assets\Scripts\UI_Scripts\SlotToolTip.cs" />
     <Compile Include="Assets\Scripts\UI_Scripts\StatusController.cs" />
     <Compile Include="Assets\Scripts\WeaponManager.cs" />
     <Compile Include="Assets\Scripts\WeaponSway.cs" />

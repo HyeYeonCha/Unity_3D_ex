@@ -22,8 +22,22 @@ public class ItemEffectDataBase : MonoBehaviour {
     private StatusController thePlayerStatus;
     [SerializeField]
     private WeaponManager theWeaponManager;
+    [SerializeField]
+    private SlotToolTip theSlotToolTip;
 
     private const string HP = "HP", SP = "SP", DP = "DP", HUNGRY = "HUNGRY", THIRSTY = "THIRSTY", SATISFY = "SATISFY";
+
+    public void ShowToolTip(Item _itme, Vector3 _pos)
+    {
+        // 징검다리 역할 >> Slot Script에서 너무 많은 Find가 실행되지 않도록
+        theSlotToolTip.ShowToolTip(_itme, _pos);
+    }
+
+    public void HideToolTip ()
+    {
+        theSlotToolTip.HideToolTip();
+        // 근데 이 방법 자주쓰면은 함수의 함수를 호출하기 떄문에 스텍 오버플로우가 발생할 수 있음...
+    }
 
     public void UseItem(Item _itme)
     {

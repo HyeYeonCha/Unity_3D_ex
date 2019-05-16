@@ -9,6 +9,8 @@ using UnityEngine;
 public class Item : ScriptableObject {
 
     public string itemName; // 아이템의 이름.
+    [TextArea]
+    public string itmeDesc; // 아이템의 설명
     public ItemType itemType; // 아이템의 유형.
     public Sprite itemImage; // 아이템의 이미지. (Sprite는 Canvase 필요 없음 !! >> World 좌표만 있으면 가능)
     public GameObject itemPrefab; // 아이템의 프리팹.

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 // 인터페이스는 클래스와 달리 다중 상속이 가능.
-public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler {
+public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler {
 
     public Item item; // 획득한 아이템
     public int itemCount; // 획득한 아이템의 개수
@@ -19,6 +19,9 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDra
     private GameObject go_CountImage;
 
     private ItemEffectDataBase theItemEffectDataBase;
+
+    private SlotToolTip theSlotToolTip;
+
     //private WeaponManager theWeaponmanager;
 
     void Start()
@@ -162,4 +165,17 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDra
 
     }
 
+    // 마우스가 슬롯에 들어갈 때 발동.
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if(item != null)
+            theItemEffectDataBase.ShowToolTip(item, transform.position);
+    }
+
+
+    // 슬롯에서 빠져나갈 때 발동.
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        theItemEffectDataBase.HideToolTip();
+    }
 }
