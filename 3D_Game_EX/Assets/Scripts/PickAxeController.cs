@@ -30,6 +30,11 @@ public class PickAxeController : CloseWeaponController {
                 if(hitInfo.transform.tag == "Rock")
                 {
                     hitInfo.transform.GetComponent<Rock>().Mining();
+                } else if(hitInfo.transform.tag == "NPC")
+                {
+                    SoundManager.instance.PlaySE("Animal_Hit"); // 하드코딩.. >> 빠르게 하려고
+                    hitInfo.transform.GetComponent<Pig>().Demage(1, transform.position);
+                    // currentCloseWeapon.damege >> 데미지 지금은 1로 줌 Test 중이라
                 }
                 isSwing = false; // 중복 실행 X
                 Debug.Log(hitInfo.transform.name);

@@ -15,6 +15,8 @@ public abstract class CloseWeaponController : MonoBehaviour {
     protected bool isSwing = false;
 
     protected RaycastHit hitInfo;
+    [SerializeField]
+    protected LayerMask layerMask;
 
     //Update is called once per frame // update 어차피 실행 X >> 추상 클래스 이므로 
     //void Update()
@@ -27,7 +29,7 @@ public abstract class CloseWeaponController : MonoBehaviour {
     {
         if (!Inventory.inventoryActivated)
         {
-            Debug.Log("인벤토리 활성화 X");
+            // Debug.Log("인벤토리 활성화 X");
             if (Input.GetButton("Fire1"))
             {
                 if (!isAttack)
@@ -62,7 +64,7 @@ public abstract class CloseWeaponController : MonoBehaviour {
 
     protected bool CheckObject()
     {
-        if (Physics.Raycast(transform.position, transform.forward, out hitInfo, currentCloseWeapon.range))
+        if (Physics.Raycast(transform.position, transform.forward, out hitInfo, currentCloseWeapon.range, layerMask))
         {
             return true;
         }
