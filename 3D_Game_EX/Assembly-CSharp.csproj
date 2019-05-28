@@ -66,6 +66,8 @@
     <Compile Include="Assets\Scripts\CloseWeapon.cs" />
     <Compile Include="Assets\Scripts\CloseWeaponController.cs" />
     <Compile Include="Assets\Scripts\Crosshair.cs" />
+    <Compile Include="Assets\Scripts\DayAndNight.cs" />
+    <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\Gun.cs" />
     <Compile Include="Assets\Scripts\GunController.cs" />
     <Compile Include="Assets\Scripts\HandController.cs" />
@@ -79,8 +81,11 @@
     <Compile Include="Assets\Scripts\NPC\WeekAnimal.cs" />
     <Compile Include="Assets\Scripts\PickAxeController.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\PreviewObject.cs" />
     <Compile Include="Assets\Scripts\Rock.cs" />
+    <Compile Include="Assets\Scripts\SimpleTrap.cs" />
     <Compile Include="Assets\Scripts\SoundManager.cs" />
+    <Compile Include="Assets\Scripts\UI_Scripts\CraftManual.cs" />
     <Compile Include="Assets\Scripts\UI_Scripts\DragSlot.cs" />
     <Compile Include="Assets\Scripts\UI_Scripts\Inventory.cs" />
     <Compile Include="Assets\Scripts\UI_Scripts\Slot.cs" />
