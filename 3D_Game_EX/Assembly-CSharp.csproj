@@ -91,6 +91,7 @@
     <Compile Include="Assets\Scripts\UI_Scripts\Slot.cs" />
     <Compile Include="Assets\Scripts\UI_Scripts\SlotToolTip.cs" />
     <Compile Include="Assets\Scripts\UI_Scripts\StatusController.cs" />
+    <Compile Include="Assets\Scripts\Water\Water.cs" />
     <Compile Include="Assets\Scripts\WeaponManager.cs" />
     <Compile Include="Assets\Scripts\WeaponSway.cs" />
     <None Include="Assets\Res\Water Shader\Water_Shader.shader" />

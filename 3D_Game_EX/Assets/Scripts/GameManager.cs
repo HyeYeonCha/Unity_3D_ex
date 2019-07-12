@@ -8,8 +8,11 @@ public class GameManager : MonoBehaviour {
 
     public static bool isOpenInventory = false; // 인벤터리 활성화.
 
-	// Use this for initialization
-	void Start () {
+    public static bool isNight = false;
+    public static bool isWater = false;
+
+    // Use this for initialization
+    void Start () {
         
 	}
 	
