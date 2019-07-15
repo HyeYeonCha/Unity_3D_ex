@@ -11,14 +11,20 @@ public class GameManager : MonoBehaviour {
     public static bool isNight = false;
     public static bool isWater = false;
 
+    public static bool isPause = false;
+
+    private WeaponManager theWM;
+    private bool flag = false;
+
     // Use this for initialization
     void Start () {
-        
-	}
+        theWM = FindObjectOfType<WeaponManager>();
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
-        if (isOpenInventory)
+        if (isOpenInventory || isPause)
         {
             // 커서 자체를 잠가주기 >> Locked 으로 해두면 자동적으로 안움직이고 안보이게 된다.
             Cursor.lockState = CursorLockMode.None;
@@ -31,5 +37,25 @@ public class GameManager : MonoBehaviour {
             Cursor.visible = false;
             canPlayerMove = true;
         }
+
+        if(isWater)
+        {
+            if(!flag)
+            {
+                StopAllCoroutines();
+                StartCoroutine(theWM.WeaponInCoroutine());
+                flag = true;
+            }
+            
+        } else
+        {
+            if (flag)
+            {
+                flag = false;
+                theWM.WeaponOut();
+            }
+        }
+           
+
     }
 }

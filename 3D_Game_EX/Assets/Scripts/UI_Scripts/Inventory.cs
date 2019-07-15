@@ -18,7 +18,21 @@ public class Inventory : MonoBehaviour {
     // 슬롯들
     private Slot[] slots;
 
+    public Slot[] GetSlots() { return slots; }
 
+    [SerializeField]
+    private Item[] items;
+
+    public void LoadToInven(int _arrayNum, string _itemName, int _itmeNum)
+    {
+        for (int i = 0; i < items.Length; i++)
+        {
+            if(items[i].itemName == _itemName)
+            {
+                slots[_arrayNum].AddItem(items[i], _itmeNum);
+            }
+        }
+    }
 
 	// Use this for initialization
 	void Start () {
